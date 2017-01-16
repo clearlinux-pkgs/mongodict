@@ -4,7 +4,7 @@
 #
 Name     : mongodict
 Version  : 0.3.1
-Release  : 14
+Release  : 15
 URL      : https://pypi.python.org/packages/source/m/mongodict/mongodict-0.3.1.tar.gz
 Source0  : https://pypi.python.org/packages/source/m/mongodict/mongodict-0.3.1.tar.gz
 Summary  : MongoDB-backed Python dict-like interface
@@ -13,6 +13,7 @@ License  : GPL-3.0
 Requires: mongodict-python
 BuildRequires : pbr
 BuildRequires : pip
+BuildRequires : pymongo
 BuildRequires : python-dev
 BuildRequires : python3-dev
 BuildRequires : setuptools
@@ -33,13 +34,16 @@ python components for the mongodict package.
 %setup -q -n mongodict-0.3.1
 
 %build
+export LANG=C
+export SOURCE_DATE_EPOCH=1484553608
 python2 setup.py build -b py2
 python3 setup.py build -b py3
 
 %install
+export SOURCE_DATE_EPOCH=1484553608
 rm -rf %{buildroot}
-python2 setup.py build -b py2 install --root=%{buildroot}
-python3 setup.py build -b py3 install --root=%{buildroot}
+python2 -tt setup.py build -b py2 install --root=%{buildroot} --force
+python3 -tt setup.py build -b py3 install --root=%{buildroot} --force
 
 %files
 %defattr(-,root,root,-)
