@@ -4,7 +4,7 @@
 #
 Name     : mongodict
 Version  : 0.3.1
-Release  : 17
+Release  : 18
 URL      : http://pypi.debian.net/mongodict/mongodict-0.3.1.tar.gz
 Source0  : http://pypi.debian.net/mongodict/mongodict-0.3.1.tar.gz
 Summary  : MongoDB-backed Python dict-like interface
