@@ -4,18 +4,20 @@
 #
 Name     : mongodict
 Version  : 0.3.1
-Release  : 18
-URL      : http://pypi.debian.net/mongodict/mongodict-0.3.1.tar.gz
-Source0  : http://pypi.debian.net/mongodict/mongodict-0.3.1.tar.gz
+Release  : 19
+URL      : https://files.pythonhosted.org/packages/aa/27/64b9b903ed125a4c26dd9fc28921e90bfd3eca0bdce91ce8faac502e61e7/mongodict-0.3.1.tar.gz
+Source0  : https://files.pythonhosted.org/packages/aa/27/64b9b903ed125a4c26dd9fc28921e90bfd3eca0bdce91ce8faac502e61e7/mongodict-0.3.1.tar.gz
 Summary  : MongoDB-backed Python dict-like interface
 Group    : Development/Tools
 License  : GPL-3.0
+Requires: mongodict-python3
+Requires: mongodict-license
 Requires: mongodict-python
 Requires: pymongo
+BuildRequires : buildreq-distutils3
 BuildRequires : pbr
 BuildRequires : pip
 BuildRequires : pymongo
-BuildRequires : python-dev
 BuildRequires : python3-dev
 BuildRequires : setuptools
 
@@ -23,12 +25,30 @@ BuildRequires : setuptools
 mongodict - MongoDB-backed Python dict-like interface
 =====================================================
 
+%package license
+Summary: license components for the mongodict package.
+Group: Default
+
+%description license
+license components for the mongodict package.
+
+
 %package python
 Summary: python components for the mongodict package.
 Group: Default
+Requires: mongodict-python3
 
 %description python
 python components for the mongodict package.
+
+
+%package python3
+Summary: python3 components for the mongodict package.
+Group: Default
+Requires: python3-core
+
+%description python3
+python3 components for the mongodict package.
 
 
 %prep
@@ -39,15 +59,14 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1503121464
-python2 setup.py build -b py2
+export SOURCE_DATE_EPOCH=1532377445
 python3 setup.py build -b py3
 
 %install
-export SOURCE_DATE_EPOCH=1503121464
 rm -rf %{buildroot}
-python2 -tt setup.py build -b py2 install --root=%{buildroot} --force
-python3 -tt setup.py build -b py3 install --root=%{buildroot} --force
+mkdir -p %{buildroot}/usr/share/doc/mongodict
+cp LICENSE %{buildroot}/usr/share/doc/mongodict/LICENSE
+python3 -tt setup.py build -b py3 install --root=%{buildroot}
 echo ----[ mark ]----
 cat %{buildroot}/usr/lib/python3*/site-packages/*/requires.txt || :
 echo ----[ mark ]----
@@ -55,7 +74,13 @@ echo ----[ mark ]----
 %files
 %defattr(-,root,root,-)
 
+%files license
+%defattr(-,root,root,-)
+/usr/share/doc/mongodict/LICENSE
+
 %files python
 %defattr(-,root,root,-)
-/usr/lib/python2*/*
+
+%files python3
+%defattr(-,root,root,-)
 /usr/lib/python3*/*
